@@ -1,0 +1,25 @@
+# Claude Code
+.claude/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Vite / TypeScript cache
+*.tsbuildinfo
+.vite/
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

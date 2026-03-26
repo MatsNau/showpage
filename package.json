@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "deploy": "BASE_URL=/showpage/ npm run build && gh-pages -d dist"
+    "deploy": "cross-env BASE_URL=/showpage/ npm run build"
   },
   "dependencies": {
     "98.css": "^0.1.21",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
+    "cross-env": "^10.1.0",
     "gh-pages": "^6.3.0",
     "typescript": "~5.7.2",
     "vite": "^6.0.5",
