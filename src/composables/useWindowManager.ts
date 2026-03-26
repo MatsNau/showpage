@@ -14,6 +14,10 @@ type OpenWindowOptions = {
   isMaximized?: boolean
 }
 
+function isMobileDevice(): boolean {
+  return window.innerWidth < 768
+}
+
 export function useWindowManager() {
   function openWindow(options: OpenWindowOptions): string {
     const id = `win-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
@@ -30,7 +34,7 @@ export function useWindowManager() {
       height: options.height ?? 360,
       zIndex: ++zCounter,
       isMinimized: false,
-      isMaximized: options.isMaximized ?? false,
+      isMaximized: options.isMaximized ?? isMobileDevice(),
     })
 
     return id

@@ -9,7 +9,7 @@ const props = defineProps<{ window: WindowInstance }>()
 const { closeWindow, focusWindow, toggleMinimize, toggleMaximize, updatePosition } =
   useWindowManager()
 
-const { startDrag } = useDraggable((x, y) => {
+const { startDrag, startTouchDrag } = useDraggable((x, y) => {
   updatePosition(props.window.id, x, y)
 })
 </script>
@@ -36,6 +36,7 @@ const { startDrag } = useDraggable((x, y) => {
       :title="window.title"
       :is-maximized="window.isMaximized"
       @dragstart="startDrag($event, window.x, window.y)"
+      @touchdragstart="startTouchDrag($event, window.x, window.y)"
       @minimize="toggleMinimize(window.id)"
       @maximize="toggleMaximize(window.id)"
       @close="closeWindow(window.id)"
@@ -67,6 +68,5 @@ const { startDrag } = useDraggable((x, y) => {
   flex: 1;
   overflow: hidden;
   padding: 0;
-  /* Content components handle their own padding */
 }
 </style>
