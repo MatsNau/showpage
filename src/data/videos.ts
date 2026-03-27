@@ -42,6 +42,14 @@ export const videoCategories: VideoCategory[] = [
         src: '/videos/malevolence.mov',
         tags: ['concert'],
       },
+      {
+        id: 'turnstile-2025',
+        title: 'turnstile.mp4',
+        description: 'TURNSTILE IN HAMBURG',
+        sourceType: 'file',
+        src: '/videos/turnstile.mp4',
+        tags: ['concert'],
+      },
     ],
   },
   {
@@ -50,12 +58,12 @@ export const videoCategories: VideoCategory[] = [
     icon: 'tv',
     videos: [
       {
-        id: 'commercial-01',
-        title: 'Brand Spot — Example',
-        description: 'A 30-second brand spot.',
-        sourceType: 'youtube',
-        src: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        tags: ['commercial', 'brand'],
+        id: 'doomscroll',
+        title: 'doomscroll.mp4',
+        description: 'stop scrolling',
+        sourceType: 'file',
+        src: '/videos/doomscroll.mp4',
+        tags: ['short'],
       },
     ],
   },
