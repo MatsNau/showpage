@@ -102,7 +102,7 @@ onMounted(() => {
   // Load GLB
   let modelRef: THREE.Group | null = null
   const loader = new GLTFLoader()
-  loader.load('/3DModel/3dHead.glb', (gltf) => {
+  loader.load(`${import.meta.env.BASE_URL}3DModel/3dHead.glb`, (gltf) => {
     const model = gltf.scene
 
     // Auto-scale

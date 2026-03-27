@@ -30,7 +30,7 @@ const embedSrc = computed(() => {
     return `${src}?${params.toString()}`
   }
 
-  return src
+  return `${import.meta.env.BASE_URL}${src.replace(/^\//, '')}`
 })
 </script>
 
