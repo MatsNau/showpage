@@ -144,14 +144,11 @@ onMounted(() => {
   }
   window.addEventListener('resize', onResize)
 
-  const maxAngle = Math.PI * 0.375 // ~67° = 3/4 Profil
-
   // Animation loop
   function animate() {
     animationId = requestAnimationFrame(animate)
     const delta = clock.getDelta()
     if (mixer) mixer.update(delta)
-    if (modelRef) modelRef.rotation.y = Math.sin(clock.elapsedTime * 0.5) * maxAngle
     crtPass.uniforms['time'].value += delta
     composer.render()
   }
