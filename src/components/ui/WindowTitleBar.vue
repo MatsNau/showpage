@@ -51,9 +51,7 @@ defineEmits<{
   .title-bar-controls button {
     width: 28px !important;
     height: 28px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    background-position: center !important;
   }
 }
 </style>
