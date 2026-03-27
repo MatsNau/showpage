@@ -10,7 +10,10 @@
     "deploy": "cross-env BASE_URL=/showpage/ npm run build"
   },
   "dependencies": {
+    "@types/three": "^0.183.1",
     "98.css": "^0.1.21",
+    "postprocessing": "^6.39.0",
+    "three": "^0.183.2",
     "vue": "^3.5.13"
   },
   "devDependencies": {

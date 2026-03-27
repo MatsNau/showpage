@@ -8,6 +8,7 @@ import FolderWindow from '@/components/windows/FolderWindow.vue'
 import VideoPlayer from '@/components/windows/VideoPlayer.vue'
 import AboutWindow from '@/components/windows/AboutWindow.vue'
 import type { FolderPayload, VideoPlayerPayload } from '@/types'
+import DesktopBackground from '@/components/desktop/DesktopBackground.vue'
 
 const { windows, openWindow } = useWindowManager()
 
@@ -33,6 +34,7 @@ function openAbout() {
 
 <template>
   <div class="desktop">
+    <DesktopBackground />
     <div class="desktop__icons">
       <DesktopIcon
         v-for="cat in videoCategories"
@@ -70,7 +72,7 @@ function openAbout() {
   height: 100vh;
   overflow: hidden;
   position: relative;
-  background-color: #008080;
+  background-color: #000;
 }
 
 .desktop__icons {
@@ -81,6 +83,7 @@ function openAbout() {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .desktop__watermark {
