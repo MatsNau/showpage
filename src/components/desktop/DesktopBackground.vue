@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass.js'
+import { RenderPixelatedPass } from 'three/examples/jsm/postprocessing/RenderPixelatedPass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
@@ -119,6 +119,24 @@ onMounted(() => {
     const center = box.getCenter(new THREE.Vector3())
     model.position.sub(center)
 
+    // Wireframe overlay
+    model.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh
+        const wireframe = new THREE.LineSegments(
+          new THREE.WireframeGeometry(mesh.geometry),
+          new THREE.LineBasicMaterial({ color: 0x00ffcc, opacity: 0.8, transparent: true }),
+        )
+        mesh.add(wireframe)
+        // Make base mesh dark/transparent so wireframe dominates
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((m) => { (m as THREE.MeshStandardMaterial).color.set(0x224433) })
+        } else {
+          (mesh.material as THREE.MeshStandardMaterial).color.set(0x224433)
+        }
+      }
+    })
+
     scene.add(model)
     modelRef = model
 
@@ -136,8 +154,8 @@ onMounted(() => {
   const composer = new EffectComposer(renderer)
   composer.addPass(new RenderPass(scene, camera))
 
-  const filmPass = new FilmPass(0.25)
-  composer.addPass(filmPass)
+  const pixelPass = new RenderPixelatedPass(2, scene, camera)
+  composer.addPass(pixelPass)
 
   const crtPass = new ShaderPass(CRTShader)
   composer.addPass(crtPass)
@@ -157,7 +175,7 @@ onMounted(() => {
   function animate() {
     animationId = requestAnimationFrame(animate)
     const delta = clock.getDelta()
-    if (mixer && modelReady) mixer.setTime(clock.elapsedTime - loadTimeOffset)
+    if (mixer && modelReady) mixer.update(delta)
     if (modelReady && modelRef) {
       rotationElapsed += delta
       modelRef.rotation.y = Math.sin(rotationElapsed * 0.5) * maxAngle
