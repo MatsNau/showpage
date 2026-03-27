@@ -11,6 +11,9 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 let animationId: number
 let mixer: THREE.AnimationMixer | null = null
 const clock = new THREE.Clock()
+let modelReady = false
+let rotationElapsed = 0
+let loadTimeOffset = 0
 
 // CRT retro shader: vignette + RGB chromatic aberration + scanline flicker
 const CRTShader = {
@@ -121,8 +124,12 @@ onMounted(() => {
 
     if (gltf.animations.length > 0) {
       mixer = new THREE.AnimationMixer(model)
-      gltf.animations.forEach((clip) => mixer!.clipAction(clip).play())
+      gltf.animations.forEach((clip) => {
+        mixer!.clipAction(clip).reset().play()
+      })
     }
+    loadTimeOffset = clock.elapsedTime
+    modelReady = true
   })
 
   // Post-processing
@@ -144,11 +151,17 @@ onMounted(() => {
   }
   window.addEventListener('resize', onResize)
 
+  const maxAngle = Math.PI * 0.375 // ~67° = 3/4 Profil
+
   // Animation loop
   function animate() {
     animationId = requestAnimationFrame(animate)
     const delta = clock.getDelta()
-    if (mixer) mixer.update(delta)
+    if (mixer && modelReady) mixer.setTime(clock.elapsedTime - loadTimeOffset)
+    if (modelReady && modelRef) {
+      rotationElapsed += delta
+      modelRef.rotation.y = Math.sin(rotationElapsed * 0.5) * maxAngle
+    }
     crtPass.uniforms['time'].value += delta
     composer.render()
   }
