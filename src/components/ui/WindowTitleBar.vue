@@ -36,13 +36,24 @@ defineEmits<{
 /* Larger tap targets on touch devices */
 @media (pointer: coarse) {
   .title-bar {
-    height: 32px !important;
-    min-height: 32px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .title-bar-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
   }
 
   .title-bar-controls button {
     width: 28px !important;
     height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 </style>
