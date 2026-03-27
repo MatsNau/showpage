@@ -41,7 +41,7 @@ const embedSrc = computed(() => {
       <video
         v-if="props.payload.video.sourceType === 'file'"
         class="wmp__iframe"
-        :src="props.payload.video.src"
+        :src="embedSrc"
         controls
         autoplay
       />
