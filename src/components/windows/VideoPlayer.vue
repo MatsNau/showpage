@@ -4,16 +4,33 @@ import type { VideoPlayerPayload } from '@/types'
 
 const props = defineProps<{ payload: VideoPlayerPayload }>()
 
-// vq=hd1080 is a best-effort quality hint to YouTube.
-// YouTube deprecated direct quality control via the embed API,
-// but this parameter still nudges the player toward the highest available resolution.
 const embedSrc = computed(() => {
-  const params = new URLSearchParams({
-    autoplay: '1',
-    rel: '0',
-    vq: 'hd1080',
-  })
-  return `${props.payload.video.src}?${params.toString()}`
+  const { sourceType, src } = props.payload.video
+
+  if (sourceType === 'vimeo') {
+    const params = new URLSearchParams({
+      badge: '0',
+      autopause: '0',
+      player_id: '0',
+      app_id: '58479',
+      autoplay: '1',
+      byline: '0',
+      portrait: '0',
+      title: '0',
+    })
+    return `${src}?${params.toString()}`
+  }
+
+  if (sourceType === 'youtube') {
+    const params = new URLSearchParams({
+      autoplay: '1',
+      rel: '0',
+      vq: 'hd1080',
+    })
+    return `${src}?${params.toString()}`
+  }
+
+  return src
 })
 </script>
 
@@ -26,7 +43,8 @@ const embedSrc = computed(() => {
         :src="embedSrc"
         :title="props.payload.video.title"
         frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen
       />
     </div>
